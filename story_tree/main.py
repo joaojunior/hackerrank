@@ -43,11 +43,7 @@ def story_tree(graph, parent_alice, k):
     total_games = len(nodes)
     for root in nodes:
         parents = bfs(graph, root)
-        quantity = 0
-        for child, parent in parent_alice.items():
-            if parents[child] in parent:
-                quantity += 1
-        if quantity >= k:
+        if verify(parent_alice, parents, k):
             win += 1
     if win == 0:
         total_games = 1
@@ -56,6 +52,16 @@ def story_tree(graph, parent_alice, k):
         win = int(win / gcd)
         total_games = int(total_games / gcd)
     print('{}/{}'.format(win, total_games))
+
+
+def verify(parents_alice, parents, k):
+    quantity = 0
+    for child, parent in parent_alice.items():
+        if parents[child] in parent:
+            quantity += 1
+            if quantity >= k:
+                return True
+    return False
 
 
 if __name__ == '__main__':

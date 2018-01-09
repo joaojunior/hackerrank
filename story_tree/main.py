@@ -45,7 +45,7 @@ def story_tree(graph, parent_alice, k):
         parents = bfs(graph, root)
         quantity = 0
         for child, parent in parent_alice.items():
-            if parents[child] == parent:
+            if parents[child] in parent:
                 quantity += 1
         if quantity >= k:
             win += 1
@@ -68,7 +68,7 @@ if __name__ == '__main__':
             source = int(source)
             dest = int(dest)
             graph.add_edge(source, dest)
-        parent_alice = {}
+        parent_alice = defaultdict(list)
         g, k = input().split()
         g = int(g)
         k = int(k)
@@ -76,5 +76,5 @@ if __name__ == '__main__':
             parent, child = input().split()
             parent = int(parent)
             child = int(child)
-            parent_alice[child] = parent
+            parent_alice[child].append(parent)
         story_tree(graph, parent_alice, k)

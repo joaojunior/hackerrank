@@ -1,24 +1,24 @@
-from collections import defaultdict
-
-
 def k_factorization(numbers, n):
-    numbers = sorted(numbers)
-    memoization = defaultdict(list)
-    size = len(numbers)
-    for number in numbers:
-        memoization[1].append((number, [1, number]))
-        if number == n:
-            return n
-    for i in range(2, size + 1):
-        for value, multiply in memoization[i-1]:
-            for number in numbers:
-                new_value = number * value
-                new_multiply = multiply[:]
-                new_multiply.append(new_value)
-                if new_value == n:
-                    return new_multiply
-                memoization[i].append((new_value, new_multiply))
-    return [-1]
+    numbers = sorted(numbers, reverse=True)
+    n_bck = n
+    divisors = []
+    for divisor in numbers:
+        if n % divisor == 0:
+            divisors.append(divisor)
+    result = []
+    while divisors:
+        divisor = divisors.pop(0)
+        while n % divisor == 0:
+            result.append(divisor)
+            n = n / divisor
+    result.append(1)
+    for i in range(len(result) - 2, -1, -1):
+        result[i] = result[i] * result[i+1]
+    result.reverse()
+    if result and result[-1] == n_bck:
+        return result
+    else:
+        return [-1]
 
 
 if __name__ == "__main__":

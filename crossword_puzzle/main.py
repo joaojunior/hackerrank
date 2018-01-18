@@ -5,9 +5,47 @@ from copy import deepcopy
 class Backtrack():
     def backtrack(self, words, matrix):
         self.words = words
-        self.matrix = matrix
+        self.matrix = deepcopy(matrix)
         self.size = len(self.matrix)
         self.calculate_possibles()
+        self.quantity = len(words)
+        i = 0
+        possibles = []
+        while len(possibles) == 0:
+            word = self.words[i]
+            possibles = self.possibles.get(word, [])
+            i += 1
+        for possible in possibles:
+            new_matrix, result = self.try_fill(matrix,
+                                               word,
+                                               possible)
+            result = self._backtrack([possible], [word], new_matrix)
+            if result is not None:
+                return result
+
+    def _backtrack(self, filled, words, matrix):
+        if len(words) == self.quantity:
+            print_matrix(matrix)
+            return matrix
+        else:
+            for word in self.words:
+                if word not in words:
+                    for possible in self.possibles[word]:
+                        if possible not in filled:
+                            new_matrix = deepcopy(matrix)
+                            new_matrix, result = self.try_fill(new_matrix,
+                                                               word,
+                                                               possible)
+                            if result:
+                                new_filled = filled[:]
+                                new_words = words[:]
+                                new_filled.append(possible)
+                                new_words.append(word)
+                                result = self._backtrack(new_filled,
+                                                         new_words,
+                                                         new_matrix)
+                                if result is not None:
+                                    return new_matrix
 
     def calculate_possibles(self):
         self.possibles = {}
@@ -16,19 +54,18 @@ class Backtrack():
         for word in self.words:
             self.possibles[word] = (possibles_horizontal[len(word)] +
                                     possibles_vertical[len(word)])
-        print(self.possibles)
 
     def calculate_possibles_horizontal(self):
         possibles = defaultdict(list)
         for i in range(self.size):
             quantity = 0
-            col = 0
-            col_last = 0
-            for j in range(self.size - 1):
+            col = -1
+            col_last = -1
+            for j in range(self.size):
                 if self.matrix[i][j] == '-':
                     quantity += 1
                     col_last = j
-                    if col == 0:
+                    if col == -1:
                         col = j
             if quantity > 1 and quantity == col_last - col + 1:
                 possibles[quantity].append((i, col, 'H'))
@@ -38,13 +75,13 @@ class Backtrack():
         possibles = defaultdict(list)
         for i in range(self.size):
             quantity = 0
-            row = 0
-            row_last = 0
+            row = -1
+            row_last = -1
             for j in range(self.size):
                 if self.matrix[j][i] == '-':
                     quantity += 1
                     row_last = j
-                    if row is None:
+                    if row == -1:
                         row = j
             if quantity > 1 and quantity == row_last - row + 1:
                 possibles[quantity].append((row, i, 'V'))
@@ -65,7 +102,7 @@ class Backtrack():
             if new_matrix[row][col] == word[j] or new_matrix[row][col] == '-':
                 new_matrix[row][col] = word[j]
             else:
-                return matrix, False
+                return deepcopy(matrix), False
         return new_matrix, True
 
 
@@ -83,6 +120,4 @@ if __name__ == "__main__":
         matrix.append(row[:])
     words = input().split(";")
     backtrack = Backtrack()
-    backtrack.backtrack(words, matrix)
-    print_matrix(matrix)
-    print(words)
+    result = backtrack.backtrack(words, matrix)

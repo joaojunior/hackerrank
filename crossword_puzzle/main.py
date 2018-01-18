@@ -58,33 +58,35 @@ class Backtrack():
     def calculate_possibles_horizontal(self):
         possibles = defaultdict(list)
         for i in range(self.size):
-            quantity = 0
-            col = -1
-            col_last = -1
-            for j in range(self.size):
-                if self.matrix[i][j] == '-':
-                    quantity += 1
-                    col_last = j
-                    if col == -1:
-                        col = j
-            if quantity > 1 and quantity == col_last - col + 1:
-                possibles[quantity].append((i, col, 'H'))
+            row = self.matrix[i]
+            j = 0
+            while j < self.size - 1 and row[j] + row[j + 1] != '--':
+                j += 1
+            begin = j
+            j = self.size - 1
+            while j > 0 and row[j] + row[j - 1] != '--':
+                j -= 1
+            end = j
+            if begin < self.size - 1 and end > 0:
+                size = end - begin + 1
+                possibles[size].append((i, begin, 'H'))
         return possibles
 
     def calculate_possibles_vertical(self):
         possibles = defaultdict(list)
         for i in range(self.size):
-            quantity = 0
-            row = -1
-            row_last = -1
-            for j in range(self.size):
-                if self.matrix[j][i] == '-':
-                    quantity += 1
-                    row_last = j
-                    if row == -1:
-                        row = j
-            if quantity > 1 and quantity == row_last - row + 1:
-                possibles[quantity].append((row, i, 'V'))
+            j = 0
+            while (j < self.size - 1 and
+                    self.matrix[j][i] + self.matrix[j+1][i] != '--'):
+                    j += 1
+            begin = j
+            j = self.size - 1
+            while j > 0 and self.matrix[j][i] + self.matrix[j-1][i] != '--':
+                    j -= 1
+            end = j
+            if begin < self.size - 1 and end > 0:
+                size = end - begin + 1
+                possibles[size].append((begin, i, 'V'))
         return possibles
 
     def try_fill(self, matrix, word, position):

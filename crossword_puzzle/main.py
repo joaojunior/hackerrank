@@ -1,5 +1,5 @@
-from collection import defaultdict
-from copy import deep_copy
+from collections import defaultdict
+from copy import deepcopy
 
 
 class Backtrack():
@@ -11,22 +11,26 @@ class Backtrack():
 
     def calculate_possibles(self):
         self.possibles = {}
-        possibles = (self.calculate_possibles_horizontal() +
-                     self.calculate_possibles_vertical())
+        possibles_horizontal = self.calculate_possibles_horizontal()
+        possibles_vertical = self.calculate_possibles_vertical()
         for word in self.words:
-            self.possibles[word] = possibles[len(word)]
+            self.possibles[word] = (possibles_horizontal[len(word)] +
+                                    possibles_vertical[len(word)])
+        print(self.possibles)
 
     def calculate_possibles_horizontal(self):
         possibles = defaultdict(list)
         for i in range(self.size):
             quantity = 0
-            col = None
-            for j in range(self.size):
+            col = 0
+            col_last = 0
+            for j in range(self.size - 1):
                 if self.matrix[i][j] == '-':
                     quantity += 1
-                    if col is None:
+                    col_last = j
+                    if col == 0:
                         col = j
-            if quantity > 1:
+            if quantity > 1 and quantity == col_last - col + 1:
                 possibles[quantity].append((i, col, 'H'))
         return possibles
 
@@ -34,18 +38,20 @@ class Backtrack():
         possibles = defaultdict(list)
         for i in range(self.size):
             quantity = 0
-            row = None
+            row = 0
+            row_last = 0
             for j in range(self.size):
                 if self.matrix[j][i] == '-':
                     quantity += 1
+                    row_last = j
                     if row is None:
                         row = j
-            if quantity > 1:
+            if quantity > 1 and quantity == row_last - row + 1:
                 possibles[quantity].append((row, i, 'V'))
         return possibles
 
     def try_fill(self, matrix, word, position):
-        new_matrix = deep_copy(matrix)
+        new_matrix = deepcopy(matrix)
         row_started = position[0]
         col_started = position[1]
         direction = position[2]
@@ -61,3 +67,22 @@ class Backtrack():
             else:
                 return matrix, False
         return new_matrix, True
+
+
+def print_matrix(matrix):
+    size = len(matrix)
+    for i in range(size):
+        print(''.join(matrix[i]))
+
+
+if __name__ == "__main__":
+    size = 10
+    matrix = []
+    for i in range(size):
+        row = list(input())
+        matrix.append(row[:])
+    words = input().split(";")
+    backtrack = Backtrack()
+    backtrack.backtrack(words, matrix)
+    print_matrix(matrix)
+    print(words)

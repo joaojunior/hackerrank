@@ -2,11 +2,14 @@ def absolute_permutation(n, k):
     numbers = range(1,n + 1)
     permutation = [None] * (n + 1)
     finded = True
+    quantity = 0
+    add = k
     for number in numbers:
-        if number + k <= n:
-            position = number + k
-        else:
-            position = number - k
+        position = number + add
+        quantity += 1
+        if quantity == k:
+            quantity = 0
+            add = -add
         if(position > 0 and position <= n and permutation[position] is None):
             permutation[position] = number
         else:

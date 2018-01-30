@@ -2,19 +2,12 @@ def get_minimum_cost(n, k, costs):
     costs = sorted(costs)
     result = 0
     quantity = 0
-    by_one = n // k
-    if n % k != 0:
-        by_one += 1
-    end = by_one
+    buyed = 0
     while quantity < n:
-        for i in range(by_one):
-            result += (i + 1) * costs[end - i - 1]
+        for i in range(min(k, len(costs))):
+            result += (buyed + 1) * costs.pop(-1)
             quantity += 1
-            print(end -i - 1, i)
-        end += by_one
-        if end > n:
-            by_one = n - quantity
-            end = n
+        buyed += 1
     return result
 
 

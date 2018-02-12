@@ -8,13 +8,13 @@ class SamSubStrings():
         queue = []
         for position in self.positions:
             queue.append([position])
+        self.memoize = {}
         while queue:
             substring = queue.pop(0)
             self.sum_ += self.transform_position_to_number(substring)
-            if len(substring) < len(self.numbers):
-                for i, number in enumerate(self.numbers):
-                    if i == substring[-1] + 1:
-                        queue.append(substring[:] + [i])
+            if substring[-1] + 1 < len(self.numbers):
+                i = substring[-1] + 1
+                queue.append(substring[:] + [i])
         return self.sum_ % (10**9 + 7)
 
     def transform_position_to_number(self, positions):

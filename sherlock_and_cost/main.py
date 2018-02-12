@@ -1,28 +1,22 @@
 class MaxSum():
     def max_sum(self, b):
+        self.best = 0
         self.b = b
-        self.a = [0] * len(b)
-        self.memoize = {}
-        return self._max_sum(len(b) - 1, max(b))
+        if len(b) > 1:
+            self.a = [0] * len(b)
+            self._max_sum(0)
+        return self.best
 
-    def _max_sum(self, i, last):
-        if i in self.memoize:
-            return self.memoize[i]
-        if i == 0:
-            if abs(last - 1) > abs(last - self.b[0]):
-                self.a[0] = 1
-            else:
-                self.a[0] = self.b[0]
-            self.memoize[0] = self.a[0]
-            return self.a[0]
+    def _max_sum(self, i):
+        if i == len(self.b):
+            sum_ = verify_sum(self.a)
+            if sum_ > self.best:
+                self.best = sum_
         else:
-            if (abs(1 - self._max_sum(i - 1, 1)) >
-                    abs(self.b[i] - self._max_sum(i - 1, self.b[i]))):
-                self.a[i] = 1
-            else:
-                self.a[i] = self.b[i]
-            self.memoize[i] = self.a[i]
-            return self.a[i]
+            self.a[i] = 1
+            self._max_sum(i + 1)
+            self.a[i] = self.b[i]
+            self._max_sum(i + 1)
 
 
 def verify_sum(arr):
@@ -40,5 +34,3 @@ if __name__ == "__main__":
         max_sum = MaxSum()
         result = max_sum.max_sum(arr)
         print(result)
-        print(arr, len(arr))
-        print(max_sum.a, len(max_sum.a), verify_sum(max_sum.a))

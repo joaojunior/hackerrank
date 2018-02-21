@@ -1,12 +1,14 @@
 def minimumLoss(price):
-    result = max(price)
+    index = {}
     for key, i in enumerate(price):
-        min_ = result
-        for j in price[key+1:]:
-            if j < i and (i - j) < min_:
-                min_ = i - j
-        if min_ < result:
-            result = min_
+        index[i] = key
+    price_sorted = sorted(price)
+    result = max(price)
+    for i in range(len(price_sorted) - 1):
+        less = price_sorted[i]
+        great = price_sorted[i+1]
+        if great - less < result and index[great] < index[less]:
+            result = great - less
     return result
 
 

@@ -8,9 +8,16 @@ def all_subsets_size_3(array):
 
 def count_triplets(array, r):
     result = 0
-    for x, y, z in all_subsets_size_3(array):
-        if y == x * r and z == y * r:
-            result += 1
+    quantity = {}
+    for i in array:
+        quantity[i] = quantity.get(i, 0) + 1
+    for key, value in quantity.items():
+        if r == 1:
+            result += (value * (value - 1) * (value - 2)) // 6
+        else:
+            value2 = quantity.get(key * r, 0)
+            value3 = quantity.get(key * r * r, 0)
+            result += value * value2 * value3
     return result
 
 

@@ -1,11 +1,3 @@
-def all_subsets_size_3(array):
-    size = len(array)
-    for i in range(size - 2):
-        for j in range(i + 1, size - 1):
-            for k in range(j + 1, size):
-                yield array[i], array[j], array[k]
-
-
 def count_triplets(array, r):
     result = 0
     quantity = {}

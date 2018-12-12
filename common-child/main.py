@@ -17,31 +17,23 @@ def common_child(s1, s2):
     new_s1 = []
     new_s2 = []
     for c in s1:
-        if c in s2:
+        if c in frequencies_s2:
             new_s1.append(c)
     for c in s2:
-        if c in s1:
+        if c in frequencies_s1:
             new_s2.append(c)
     return longest_common_subsequence(''.join(new_s1), ''.join(new_s2))
 
 
-def longest_common_subsequence(s1, s2, memoization=None):
-    if memoization is None:
-        memoization = {}
-    if (s1, s2) in memoization:
-        return memoization[(s1, s2)]
-    if len(s1) == 0 or len(s2) == 0:
-        return 0
-    elif s1 == s2:
-        memoization[(s1, s2)] = len(s1)
-        return memoization[(s1, s2)]
-    elif s1[-1] == s2[-1]:
-        memoization[(s1, s2)] = longest_common_subsequence(
-            s1[:-1], s2[:-1], memoization) + 1
-        return memoization[(s1, s2)]
-    else:
-        memoization[(s1, s2)] = max(
-            longest_common_subsequence(s1, s2[:-1], memoization),
-            longest_common_subsequence(s1[:-1], s2, memoization)
-        )
-        return memoization[(s1, s2)]
+def longest_common_subsequence(s1, s2):
+    memoization = {}
+    size_s1 = len(s1)
+    size_s2 = len(s2)
+    for i in range(1, size_s1+1):
+        for j in range(1, size_s2+1):
+            if s1[i-1] == s2[j-1]:
+                memoization[(i, j)] = memoization.get((i-1, j-1), 0) + 1
+            else:
+                memoization[(i, j)] = max(memoization.get((i, j-1), 0),
+                                          memoization.get((i-1, j), 0))
+    return memoization[(size_s1, size_s2)]

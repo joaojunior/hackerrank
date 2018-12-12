@@ -14,7 +14,15 @@ def common_child(s1, s2):
         frequency_equals += min(frequency_s1, frequency_s2)
     if frequency_equals == 0:
         return 0
-    return longest_common_subsequence(s1, s2)
+    new_s1 = []
+    new_s2 = []
+    for c in s1:
+        if c in s2:
+            new_s1.append(c)
+    for c in s2:
+        if c in s1:
+            new_s2.append(c)
+    return longest_common_subsequence(''.join(new_s1), ''.join(new_s2))
 
 
 def longest_common_subsequence(s1, s2, memoization=None):
@@ -24,6 +32,9 @@ def longest_common_subsequence(s1, s2, memoization=None):
         return memoization[(s1, s2)]
     if len(s1) == 0 or len(s2) == 0:
         return 0
+    elif s1 == s2:
+        memoization[(s1, s2)] = len(s1)
+        return memoization[(s1, s2)]
     elif s1[-1] == s2[-1]:
         memoization[(s1, s2)] = longest_common_subsequence(
             s1[:-1], s2[:-1], memoization) + 1

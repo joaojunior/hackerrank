@@ -1,1 +1,3 @@
 (Common Child)[https://www.hackerrank.com/challenges/common-child]
+This problem is resolved with (Longest common subsequence)[https://en.wikipedia.org/wiki/Longest_common_subsequence_problem]
+The tip here is use pypy, because the cpython is not pass in all tests.

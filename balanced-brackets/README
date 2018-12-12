@@ -1,0 +1,2 @@
+(Balanced Brackets)[https://www.hackerrank.com/challenges/balanced-brackets]
+Here I need to use index i, instead of pop and append in list, because is more quicly

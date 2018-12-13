@@ -4,7 +4,7 @@ def activity_notifications(expenditure, d):
     residual = d % 2
 
     window = expenditure[0: d]
-    to_remove = window[:]
+    to_remove = 0
     window.sort()
     for i in range(d, len(expenditure)):
         if residual == 0:
@@ -13,11 +13,16 @@ def activity_notifications(expenditure, d):
             median = window[mid]
         if expenditure[i] >= 2 * median:
             notifications += 1
-        remove = to_remove.pop(0)
+        remove = expenditure[to_remove]
         if expenditure[i] != remove:
             window.remove(remove)
-            binary_search(window, expenditure[i])
-        to_remove.append(expenditure[i])
+            if expenditure[i] >= window[-1]:
+                window.append(expenditure[i])
+            elif expenditure[i] <= window[0]:
+                window.insert(0, expenditure[i])
+            else:
+                binary_search(window, expenditure[i])
+        to_remove += 1
 
     return notifications
 

@@ -12,12 +12,9 @@ class ArithmeticExpression():
     def _find(self, i, sum_, response):
         if i < self.size:
             result = (
-                self._find(i+1, sum_ * self.array[i], response[:] + ['*']) or
                 self._find(i+1, sum_ + self.array[i], response[:] + ['+']) or
+                self._find(i+1, sum_ * self.array[i], response[:] + ['*']) or
                 self._find(i+1, sum_ - self.array[i], response[:] + ['-']))
-            if result is False and self.array[i] != 0:
-                result = self._find(i+1, sum_ / self.array[i-1],
-                                    response[:] + ['/'])
             return result
         else:
             if sum_ % 101 == 0:

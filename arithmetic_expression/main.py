@@ -11,6 +11,10 @@ class ArithmeticExpression():
 
     def _find(self, i, sum_, response):
         if i < self.size:
+            if sum_ % 101 == 0:
+                return self._find(
+                    i+1, sum_ * self.array[i], response[:] + ['*']
+                )
             result = (
                 self._find(i+1, sum_ + self.array[i], response[:] + ['+']) or
                 self._find(i+1, sum_ * self.array[i], response[:] + ['*']) or

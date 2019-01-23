@@ -3,22 +3,39 @@ class ArithmeticExpression():
         self.array = array
         self.size = len(array)
         queue = [(array[0], str(array[0]))]
+        start = 0
         i = 1
+        cache = {array[0]: True}
         while i < self.size:
-            q = []
-            for j in range(len(queue)):
+            end = len(queue)
+            j = start
+            while j < end:
                 sum_, response = queue[j]
                 sum_plus = sum_ + array[i]
                 sum_times = sum_ * array[i]
                 sum_minus = sum_ - array[i]
                 if sum_ % 101 == 0:
-                    q = [[sum_times, response + '*' + str(array[i])]]
-                    break
+                    queue = [[sum_times, response + '*' + str(array[i])]]
+                    j = 0
+                    end = 0
                 else:
-                    q.append([sum_plus, response + '+' + str(array[i])])
-                    q.append([sum_times, response + '*' + str(array[i])])
-                    q.append([sum_minus, response + '-' + str(array[i])])
-            queue = q[:]
+                    if sum_plus not in cache:
+                        queue.append(
+                            [sum_plus, response + '+' + str(array[i])]
+                        )
+                        cache[sum_plus] = True
+                    if sum_times not in cache:
+                        queue.append(
+                            [sum_times, response + '*' + str(array[i])]
+                        )
+                        cache[sum_times] = True
+                    if sum_minus not in cache:
+                        queue.append(
+                            [sum_minus, response + '-' + str(array[i])]
+                        )
+                        cache[sum_minus] = True
+                j += 1
+            start = end
             i += 1
         for sum_, response in queue:
             if sum_ % 101 == 0:

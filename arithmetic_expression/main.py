@@ -11,9 +11,9 @@ class ArithmeticExpression():
             j = start
             while j < end:
                 sum_, response = queue[j]
-                sum_plus = sum_ + array[i]
-                sum_times = sum_ * array[i]
-                sum_minus = sum_ - array[i]
+                sum_plus = (sum_ + array[i]) % 101
+                sum_times = (sum_ * array[i]) % 101
+                sum_minus = (sum_ - array[i]) % 101
                 if sum_ % 101 == 0:
                     queue = [[sum_times, response + '*' + str(array[i])]]
                     j = 0

@@ -19,21 +19,30 @@ class ArithmeticExpression():
                     j = 0
                     end = 0
                 else:
-                    if sum_plus not in cache:
+                    all_in_cache = (
+                        sum_plus in cache and sum_times in cache and
+                        sum_minus in cache
+                    )
+                    if all_in_cache:
                         queue.append(
                             [sum_plus, response + '+' + str(array[i])]
                         )
-                        cache[sum_plus] = True
-                    if sum_times not in cache:
-                        queue.append(
-                            [sum_times, response + '*' + str(array[i])]
-                        )
-                        cache[sum_times] = True
-                    if sum_minus not in cache:
-                        queue.append(
-                            [sum_minus, response + '-' + str(array[i])]
-                        )
-                        cache[sum_minus] = True
+                    else:
+                        if sum_plus not in cache:
+                            queue.append(
+                                [sum_plus, response + '+' + str(array[i])]
+                            )
+                            cache[sum_plus] = True
+                        if sum_times not in cache:
+                            queue.append(
+                                [sum_times, response + '*' + str(array[i])]
+                            )
+                            cache[sum_times] = True
+                        if sum_minus not in cache:
+                            queue.append(
+                                [sum_minus, response + '-' + str(array[i])]
+                            )
+                            cache[sum_minus] = True
                 j += 1
             start = end
             i += 1

@@ -3,7 +3,7 @@ from typing import List
 
 class Solution:
     def can_partition_k_subsets(self, nums: List[int], k: int) -> bool:
-        self.nums = nums
+        self.nums = sorted(nums, reverse=True)
         self.size = len(nums)
         self.k = k
         self.sum_ = sum(nums) / k

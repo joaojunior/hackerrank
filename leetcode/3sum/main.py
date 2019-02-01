@@ -14,8 +14,9 @@ class Solution:
                 0 - (self.nums[j] + self.nums[i]), j + 1, self.size - 1
             )
             if k != -1:
-                self.result.append([self.nums[i], self.nums[j], self.nums[k]])
-                return
+                r = [self.nums[i], self.nums[j], self.nums[k]]
+                if r not in self.result:
+                    self.result.append(r)
 
     def binary_search_tree(self, value, l, r):
         if r < l:
@@ -34,3 +35,4 @@ if __name__ == '__main__':
     nums = [-1, 0, 1, 2, -1, -4]
     solution = Solution()
     print(solution.three_sum(nums))
+    print(solution.three_sum([-2, 0, 1, 1, 2]))

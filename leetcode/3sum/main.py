@@ -9,26 +9,20 @@ class Solution:
         return self.result
 
     def find_sum(self, i):
-        for j in range(i + 1, self.size):
-            k = self.binary_search_tree(
-                0 - (self.nums[j] + self.nums[i]), j + 1, self.size - 1
-            )
-            if k != -1:
+        value = 0 - self.nums[i]
+        j = i + 1
+        k = self.size - 1
+        while j < k:
+            if self.nums[j] + self.nums[k] == value:
                 r = [self.nums[i], self.nums[j], self.nums[k]]
                 if r not in self.result:
                     self.result.append(r)
-
-    def binary_search_tree(self, value, l, r):
-        if r < l:
-            return -1
-        else:
-            mid = l + (r - l) // 2
-            if self.nums[mid] == value:
-                return mid
-            elif self.nums[mid] > value:
-                return self.binary_search_tree(value, l, mid - 1)
+                j += 1
+                k -= 1
+            elif self.nums[j] + self.nums[k] > value:
+                k -= 1
             else:
-                return self.binary_search_tree(value, mid + 1, r)
+                j += 1
 
 
 if __name__ == '__main__':

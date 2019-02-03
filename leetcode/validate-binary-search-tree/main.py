@@ -10,22 +10,9 @@ class TreeNode:
 
 class Solution:
     def is_valid_BST(self, root: TreeNode) -> bool:
-        if root is None or (root.left is None and root.right is None):
+        if root is None:
             return True
-        result = True
-        if root.left is not None:
-            if root.val > root.left.val:
-                result = self.is_valid(root.left, -sys.maxsize, root.val)
-            else:
-                result = False
-        if result is False:
-            return False
-        if root.right is not None:
-            if root.val < root.right.val:
-                result = self.is_valid(root.right, root.val, sys.maxsize)
-            else:
-                result = False
-        return result
+        return self.is_valid(root, -sys.maxsize, sys.maxsize)
 
     def is_valid(self, root, min_, max_):
         result = True

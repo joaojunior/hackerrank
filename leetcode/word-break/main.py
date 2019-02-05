@@ -4,9 +4,12 @@ from typing import List
 class Solution():
     def word_break(self, s: str, words: List[str]) -> bool:
         self.words = words
+        self.memoization = {}
         return self.find(s)
 
     def find(self, s: str) -> bool:
+        if s in self.memoization:
+            return self.memoization[s]
         if s == '':
             return True
         else:
@@ -16,6 +19,7 @@ class Solution():
                 word = self.words[i]
                 if s.startswith(word):
                     result = self.find(s[len(word):])
+                    self.memoization[s[len(word):]] = result
                 i += 1
             return result
 

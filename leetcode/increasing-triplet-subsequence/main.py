@@ -3,23 +3,16 @@ from typing import List
 
 class Solution:
     def increasing_triplet(self, nums: List[int]) -> bool:
-        i = 0
-        j = 1
-        k = 2
-        while i < len(nums) - 2 and j < len(nums) - 1:
-            if nums[i] < nums[j]:
-                if nums[j] < nums[k]:
-                    return True
-                else:
-                    k += 1
-                    if k == len(nums):
-                        j += 1
-                        k = j + 1
-            else:
-                j += 1
-                k = j + 1
-                if j == len(nums) or k == len(nums):
-                    i += 1
-                    j = i + 1
-                    k = j + 1
+        for i, value_i in enumerate(nums):
+            for j, value_j in enumerate(nums[i+1:]):
+                if value_i < value_j:
+                    for k, value_k in enumerate(nums[i+j+1:]):
+                        if value_j < value_k:
+                            return True
         return False
+
+
+if __name__ == '__main__':
+    solution = Solution()
+    nums = [2, 1, 5, 0, 3]
+    print(solution.increasing_triplet(nums))

@@ -9,9 +9,7 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        self.root = None
-        self.merge(lists, self.root)
-        return self.root
+        return self.merge(lists, None)
 
     def merge(self, lists: List[ListNode], root: ListNode):
         small = 10**10
@@ -21,15 +19,17 @@ class Solution:
                 small = _list.val
                 idx = i
         if idx != -1:
-            if self.root is None:
-                self.root = ListNode(lists[idx].val)
-                root = self.root
+            if root is None:
+                root = ListNode(lists[idx].val)
+                next_root = root
             else:
                 root.next = ListNode(lists[idx].val)
-                root = root.next
+                next_root = root.next
             if lists[idx].next is not None:
                 lists[idx] = lists[idx].next
             else:
                 lists.pop(idx)
             if lists:
-                self.merge(lists, root)
+                self.merge(lists, next_root)
+                return root
+        return root

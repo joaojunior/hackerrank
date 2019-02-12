@@ -5,13 +5,12 @@ convert = {
     16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen',
     20: 'Twenty', 30: 'Thirty', 40: 'Forty', 50: 'Fifty', 60: 'Sixty',
     70: 'Seventy', 80: 'Eighty', 90: 'Ninety', 100: 'Hundred'}
-special = {0: 'Zero', 1000000: 'One Million'}
 
 
 class Solution:
     def number_to_words(self, num: int) -> str:
-        if num in special:
-            return special[num]
+        if num == 0:
+            return 'Zero'
         result = []
         pot = ['Thousand', 'Million', 'Billion']
         while num > 0:
@@ -21,8 +20,11 @@ class Solution:
                 if parcial:
                     result = parcial + result
             num = q
-            if num > 0:
+            if num % 1000 > 0:
                 result.insert(0, pot.pop(0))
+            else:
+                if pot:
+                    pot.pop(0)
         return ' '.join(result)
 
     def convert(self, n: int) -> str:
@@ -43,5 +45,5 @@ class Solution:
 
 if __name__ == '__main__':
     solution = Solution()
-    num = 20
+    num = 1234567891
     print(solution.number_to_words(num))

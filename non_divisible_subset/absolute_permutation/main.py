@@ -1,5 +1,5 @@
 def absolute_permutation(n, k):
-    numbers = range(1,n + 1)
+    numbers = range(1, n + 1)
     permutation = [None] * (n + 1)
     finded = True
     quantity = 0

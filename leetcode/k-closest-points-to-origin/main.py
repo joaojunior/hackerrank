@@ -1,6 +1,6 @@
-from typing import List
-import math
 import heapq
+import math
+from typing import List
 
 
 class Solution:

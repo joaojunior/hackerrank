@@ -1,6 +1,5 @@
 import unittest
 
-
 from main import activity_notifications
 
 

@@ -1,5 +1,5 @@
 class Solution:
-    def is_match(self, s: str, p: str, memoization: dict={}) -> bool:
+    def is_match(self, s: str, p: str, memoization: dict = {}) -> bool:
         if (s, p) in memoization:
             return memoization[(s, p)]
         elif len(s) == 0:

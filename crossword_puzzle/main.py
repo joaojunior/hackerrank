@@ -76,13 +76,13 @@ class Backtrack():
         possibles = defaultdict(list)
         for i in range(self.size):
             j = 0
-            while (j < self.size - 1 and
-                    self.matrix[j][i] + self.matrix[j+1][i] != '--'):
-                    j += 1
+            while (j < self.size - 1 and self.matrix[j][i] +
+                   self.matrix[j+1][i] != '--'):
+                j += 1
             begin = j
             j = self.size - 1
             while j > 0 and self.matrix[j][i] + self.matrix[j-1][i] != '--':
-                    j -= 1
+                j -= 1
             end = j
             if begin < self.size - 1 and end > 0:
                 size = end - begin + 1

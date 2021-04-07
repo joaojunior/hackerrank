@@ -6,7 +6,7 @@ class Solution:
         self.nums = nums
         return self.binary_search(0, len(nums) - 1, target)
 
-    def binary_search(self, l: int, r: int, value: int) -> int:
+    def binary_search(self, l: int, r: int, value: int) -> int:  # noqa
         if l > r:
             return -1
         else:
